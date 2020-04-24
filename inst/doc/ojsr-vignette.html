@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Gaston Becerra" />
+
+
+<title>ojsr-vignette</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">ojsr-vignette</h1>
+<h4 class="author">Gaston Becerra</h4>
+
+
+
+<div id="overview" class="section level1">
+<h1>Overview</h1>
+<p>ojsr allows you to crawl OJS archives, issues, articles, galleys, and search results, and retrieve meta-data from articles.</p>
+<p><strong>Important Notes:</strong></p>
+<ul>
+<li><strong>ojsr functions rely on OJS routing conventions</strong>, therefore, it is most likely to fail on OJS installments with customized routing (see <a href="https://docs.pkp.sfu.ca/dev/documentation/en/architecture-routes" class="uri">https://docs.pkp.sfu.ca/dev/documentation/en/architecture-routes</a>);</li>
+<li><strong>ojsr do not scrap the url you provide!</strong>. ojsr composes the required url for different scrapping scenarios (e.g., if you are scrapping articles from an issue, it will parse and browse the issue’s ToC).</li>
+</ul>
+<div id="about-ojs" class="section level2">
+<h2>About OJS</h2>
+<p>(from the OJS documentation <a href="https://pkp.sfu.ca/ojs/" class="uri">https://pkp.sfu.ca/ojs/</a>, as of Jan.2020)</p>
+<p>Open Journal Systems (OJS) is a journal management and publishing system that has been developed by the Public Knowledge Project through its federally funded efforts to expand and improve access to research.</p>
+<p>OJS assists with every stage of the refereed publishing process, from submissions through to online publication and indexing. Through its management systems, its finely grained indexing of research, and the context it provides for research, OJS seeks to improve both the scholarly and public quality of refereed research.</p>
+<p>OJS is open source software made freely available to journals worldwide for the purpose of making open access publishing a viable option for more journals, as open access can increase a journal’s readership as well as its contribution to the public good on a global scale (see PKP Publications).</p>
+</div>
+<div id="ojs-api" class="section level2">
+<h2>OJS API</h2>
+<p>Since OJS v3.1+ <a href="https://docs.pkp.sfu.ca/dev/api/ojs/3.1" class="uri">https://docs.pkp.sfu.ca/dev/api/ojs/3.1</a> a Rest API is provided. We’re positive a better R interface should use that API instead of webscraping.</p>
+<p>So, why ojsr? According to <a href="https://pkp.sfu.ca/ojs/ojs-usage/ojs-stats/" class="uri">https://pkp.sfu.ca/ojs/ojs-usage/ojs-stats/</a>, as of 2019 (when v3.1+ was launched), OJS was being used by at least 10,000 journals worldwide. OJS is an excellent free publishing solution for institutions that probably could not publish otherwise, and presumably, can not afford to update constantly. ojsr aims to help crawling and retrieving info from OJS during this legacy period.</p>
+</div>
+</div>
+<div id="example" class="section level1">
+<h1>Example</h1>
+<div id="scrap-complete-journals-to-compare-their-most-common-keywords" class="section level2">
+<h2>Scrap complete journals to compare their most common keywords</h2>
+<p>Let’s say we want to scrap metadata from a collection of journals, in order to compare them. We have their names and urls, and can use ojsr to scrap their issues, articles and metadata.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="co"># first, load the library</span></a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">library</span>(ojsr)</a>
+<a class="sourceLine" id="cb1-3" title="3"></a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="co"># we&#39;ll use dplyr and ggplot on this example</span></a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb1-6" title="6"></a>
+<a class="sourceLine" id="cb1-7" title="7"><span class="co"># our collection of journals</span></a>
+<a class="sourceLine" id="cb1-8" title="8">journals &lt;-<span class="st"> </span><span class="kw">data.frame</span> ( <span class="kw">cbind</span>(</a>
+<a class="sourceLine" id="cb1-9" title="9">    <span class="dt">name =</span> <span class="kw">c</span>( </a>
+<a class="sourceLine" id="cb1-10" title="10">      <span class="st">&quot;PSocial&quot;</span>,</a>
+<a class="sourceLine" id="cb1-11" title="11">      <span class="st">&quot;Odisea&quot;</span></a>
+<a class="sourceLine" id="cb1-12" title="12">      ),</a>
+<a class="sourceLine" id="cb1-13" title="13">    <span class="dt">url =</span> <span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb1-14" title="14">      <span class="st">&quot;https://publicaciones.sociales.uba.ar/index.php/psicologiasocial&quot;</span>,</a>
+<a class="sourceLine" id="cb1-15" title="15">      <span class="st">&quot;https://publicaciones.sociales.uba.ar/index.php/odisea&quot;</span></a>
+<a class="sourceLine" id="cb1-16" title="16">      )</a>
+<a class="sourceLine" id="cb1-17" title="17">  ), <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb1-18" title="18">)</a>
+<a class="sourceLine" id="cb1-19" title="19"></a>
+<a class="sourceLine" id="cb1-20" title="20"><span class="co"># we are using the journal url as input to retrieve the issues</span></a>
+<a class="sourceLine" id="cb1-21" title="21">issues &lt;-<span class="st"> </span>ojsr<span class="op">::</span><span class="kw">get_issues_from_archive</span>(<span class="dt">input_url =</span> journals<span class="op">$</span>url) </a>
+<a class="sourceLine" id="cb1-22" title="22"></a>
+<a class="sourceLine" id="cb1-23" title="23"><span class="co"># we are using the issues url we just scrapped as the input to retrieve the articles</span></a>
+<a class="sourceLine" id="cb1-24" title="24">articles &lt;-<span class="st"> </span>ojsr<span class="op">::</span><span class="kw">get_articles_from_issue</span>(<span class="dt">input_url =</span> issues<span class="op">$</span>output_url)</a>
+<a class="sourceLine" id="cb1-25" title="25"></a>
+<a class="sourceLine" id="cb1-26" title="26"><span class="co"># we are using the articles url we just scrapped as the input to retrieve the metadata</span></a>
+<a class="sourceLine" id="cb1-27" title="27">metadata &lt;-<span class="st"> </span>ojsr<span class="op">::</span><span class="kw">get_html_meta_from_article</span>(<span class="dt">input_url =</span> articles<span class="op">$</span>output_url)</a></code></pre></div>
+<p>Before doing some analysis, let’s bind these together to have a better understanding of our journals. Since we are interested in summarizing by journal, we can use <code>ojsr::parse_base_url()</code> on our tables to have a binding value.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="co"># we are including the base_url on each table to simplify joining</span></a>
+<a class="sourceLine" id="cb2-2" title="2">journals<span class="op">$</span>base_url &lt;-<span class="st"> </span>ojsr<span class="op">::</span><span class="kw">parse_base_url</span>(journals<span class="op">$</span>url)</a>
+<a class="sourceLine" id="cb2-3" title="3">issues<span class="op">$</span>base_url &lt;-<span class="st"> </span>ojsr<span class="op">::</span><span class="kw">parse_base_url</span>(issues<span class="op">$</span>input_url)</a>
+<a class="sourceLine" id="cb2-4" title="4">articles<span class="op">$</span>base_url &lt;-<span class="st"> </span>ojsr<span class="op">::</span><span class="kw">parse_base_url</span>(articles<span class="op">$</span>input_url)</a>
+<a class="sourceLine" id="cb2-5" title="5">metadata<span class="op">$</span>base_url &lt;-<span class="st"> </span>ojsr<span class="op">::</span><span class="kw">parse_base_url</span>(metadata<span class="op">$</span>input_url)</a>
+<a class="sourceLine" id="cb2-6" title="6"></a>
+<a class="sourceLine" id="cb2-7" title="7"><span class="co"># a journal / issue / articles/ metadata / keywords / keywords/article table</span></a>
+<a class="sourceLine" id="cb2-8" title="8">journals <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-9" title="9"><span class="st">  </span><span class="kw">left_join</span>( issues <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>( base_url ) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">n_issues=</span><span class="kw">n</span>()) , <span class="dt">by=</span><span class="st">&quot;base_url&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-10" title="10"><span class="st">  </span><span class="kw">left_join</span>( articles <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>( base_url ) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">n_articles=</span><span class="kw">n</span>()) , <span class="dt">by=</span><span class="st">&quot;base_url&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-11" title="11"><span class="st">  </span><span class="kw">left_join</span>( metadata <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>( base_url ) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">n_metadata=</span><span class="kw">n</span>()) , <span class="dt">by=</span><span class="st">&quot;base_url&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-12" title="12"><span class="st">  </span><span class="kw">left_join</span>( metadata <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(meta_data_name<span class="op">==</span><span class="st">&quot;citation_keywords&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>( base_url ) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">n_keywords=</span><span class="kw">n</span>()) , <span class="dt">by=</span><span class="st">&quot;base_url&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-13" title="13"><span class="st">  </span><span class="kw">mutate</span>( <span class="dt">key_art =</span> n_keywords<span class="op">/</span>n_articles ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-14" title="14"><span class="st">  </span><span class="kw">select</span>(name, n_issues, n_articles, n_metadata, n_keywords, key_art)</a>
+<a class="sourceLine" id="cb2-15" title="15"><span class="co">#&gt;      name n_issues n_articles n_metadata n_keywords  key_art</span></a>
+<a class="sourceLine" id="cb2-16" title="16"><span class="co">#&gt; 1 PSocial       11         69       2960        104 1.507246</span></a>
+<a class="sourceLine" id="cb2-17" title="17"><span class="co">#&gt; 2  Odisea        6         66       3063        350 5.303030</span></a></code></pre></div>
+<p>Now, we can do our analysis: exploring the main keywords per journal. For this, we keep only non-empty keywords metadata in Spanish; then, we pick the 3 most frequent keywords (normally you would do some cleanup and normalization first); finally we plot by journal.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">metadata <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(meta_data_name<span class="op">==</span><span class="st">&quot;citation_keywords&quot;</span>, meta_data_xmllang<span class="op">==</span><span class="st">&quot;es&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># filtering keywords</span></a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="st">  </span><span class="kw">group_by</span>(base_url, <span class="dt">keyword =</span> meta_data_content) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tally</span>(<span class="dt">sort=</span><span class="ot">TRUE</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">top_n</span>(<span class="dt">wt =</span> n, <span class="dt">n =</span> <span class="dv">3</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># 3 most frequent keywords by journal</span></a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="st">  </span><span class="kw">left_join</span>( journals , <span class="dt">by=</span><span class="st">&quot;base_url&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="co"># let&#39;s include the journal names</span></a>
+<a class="sourceLine" id="cb3-4" title="4"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">reorder</span>(keyword,n),<span class="dt">y=</span>n)) <span class="op">+</span><span class="st"> </span><span class="kw">facet_wrap</span>(<span class="op">~</span>name, <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">coord_flip</span>()</a></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+</div>
+<div id="function-reference" class="section level1">
+<h1>Function reference</h1>
+<div id="get_issues_from_archive-scraps-issues-urls-from-ojs-issue-archive" class="section level2">
+<h2>get_issues_from_archive: Scraps issues’ urls from OJS issue archive</h2>
+<p><code>get_issues_from_archive()</code> takes a vector of OJS urls and scraps the issues urls from the <em>issue archive</em> (e.g., <a href="https://papiro.unizar.es/ojs/index.php/rc51-jos/issue/archive" class="uri">https://papiro.unizar.es/ojs/index.php/rc51-jos/issue/archive</a>).</p>
+<p>You don’t need to provide the actual url to issue archives. <code>get_issues_from_archive()</code> parses the url you provide to compose it. Then, looks for links containing “/issue/view” in the href. Links are post-processed to comply to OJS routing conventions before returning.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">journals &lt;-<span class="st"> </span><span class="kw">c</span>( </a>
+<a class="sourceLine" id="cb4-2" title="2">  <span class="st">&#39;https://dspace.palermo.edu/ojs/index.php/psicodebate/issue/archive&#39;</span>, <span class="co"># issue archive</span></a>
+<a class="sourceLine" id="cb4-3" title="3">  <span class="st">&#39;https://publicaciones.sociales.uba.ar/index.php/psicologiasocial/article/view/2903&#39;</span> <span class="co"># article</span></a>
+<a class="sourceLine" id="cb4-4" title="4">)</a>
+<a class="sourceLine" id="cb4-5" title="5">issues &lt;-<span class="st"> </span>ojsr<span class="op">::</span><span class="kw">get_issues_from_archive</span>(<span class="dt">input_url =</span> journals)</a></code></pre></div>
+<p>Result is in a long-format dataframe (1 input_url may result in several rows, one for each output_url), containing:</p>
+<ol style="list-style-type: decimal">
+<li><em>input_url</em> - the url you provided</li>
+<li><em>output_url</em> - the issues’ url scrapped</li>
+</ol>
+</div>
+<div id="get_articles_from_issue-scrap-articles-urls-from-the-toc-of-ojs-issues" class="section level2">
+<h2>get_articles_from_issue: Scrap articles urls from the ToC of OJS issues</h2>
+<p><code>get_articles_from_issue()</code> takes a vector of OJS (issue) urls and scraps the links to articles from the issues table of content (e.g., <a href="https://publicaciones.sociales.uba.ar/index.php/psicologiasocial/issue/view/319/showToc" class="uri">https://publicaciones.sociales.uba.ar/index.php/psicologiasocial/issue/view/319/showToc</a>).</p>
+<p>You don’t need to provide the actual url of the issues’ ToC, but you must provide urls that include issue ID (articles urls do not include this info!). <code>get_articles_from_issue()</code> parses the url you provide to compose the ToC url. Then, looks for links containing “/article/view” in the href. Links are post-processed to comply to OJS routing conventions before returning.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">issues &lt;-<span class="st"> </span><span class="kw">c</span>( </a>
+<a class="sourceLine" id="cb5-2" title="2">  <span class="st">&#39;https://revistas.ucn.cl/index.php/saludysociedad/issue/view/65&#39;</span>, <span class="co"># issue including ToC</span></a>
+<a class="sourceLine" id="cb5-3" title="3">  <span class="st">&#39;https://publicaciones.sociales.uba.ar/index.php/psicologiasocial/issue/view/31&#39;</span> <span class="co"># no ToC nor links</span></a>
+<a class="sourceLine" id="cb5-4" title="4">)</a>
+<a class="sourceLine" id="cb5-5" title="5">articles &lt;-<span class="st"> </span>ojsr<span class="op">::</span><span class="kw">get_articles_from_issue</span>(<span class="dt">input_url =</span> issues) </a></code></pre></div>
+<p>Result is in a long-format dataframe (1 input_url may result in several rows, one for each output_url), containing:</p>
+<ol style="list-style-type: decimal">
+<li><em>input_url</em> - the url you provided</li>
+<li><em>output_url</em> - the articles url scraped</li>
+</ol>
+</div>
+<div id="get_articles_from_search-scraps-ojs-search-results-for-a-given-criteria-to-retrieve-articles-url" class="section level2">
+<h2>get_articles_from_search: Scraps OJS search results for a given criteria to retrieve articles’ url</h2>
+<p><code>get_articles_from_search()</code> takes a vector of OJS urls and a string for search criteria to compose search result urls, then scraps them to retrieve articles’ urls.</p>
+<p>You don’t need to provide the actual url of the search result pages. <code>get_articles_from_search()</code> parses the url you provide to compose the search result page(s) url. If pagination is involved, necessary links are also included. Then, looks for links containing “/article/view” in the href. Links are post-processed to comply to OJS routing conventions before returning.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">journals &lt;-<span class="st"> </span><span class="kw">c</span>( </a>
+<a class="sourceLine" id="cb6-2" title="2">  <span class="st">&#39;https://revistapsicologia.uchile.cl/index.php/RDP/&#39;</span>, </a>
+<a class="sourceLine" id="cb6-3" title="3">  <span class="st">&#39;https://publicaciones.sociales.uba.ar/index.php/psicologiasocial/issue/current&#39;</span> </a>
+<a class="sourceLine" id="cb6-4" title="4">)</a>
+<a class="sourceLine" id="cb6-5" title="5">criteria &lt;-<span class="st"> &quot;psicologia&quot;</span></a>
+<a class="sourceLine" id="cb6-6" title="6">articles_search &lt;-<span class="st"> </span>ojsr<span class="op">::</span><span class="kw">get_articles_from_search</span>(<span class="dt">input_url =</span> journals, <span class="dt">search_criteria =</span> criteria)</a></code></pre></div>
+<p>Result is in a long-format dataframe (1 input_url may result in several rows, one for each output_url), containing:</p>
+<ol style="list-style-type: decimal">
+<li><em>input_url</em> - the url you provided</li>
+<li><em>output_url</em> - the article url</li>
+</ol>
+</div>
+<div id="get_galleys_from_article-scrap-galleys-urls-from-ojs-articles" class="section level2">
+<h2>get_galleys_from_article: Scrap galleys urls from OJS articles</h2>
+<p><em>Galleys</em> are the final presentation version of the content of the articles. Most of the time, these include the full-content in pdf and other reading formats. Less often, they are supplementary files (tables, dataset) in different formats.</p>
+<p><code>get_galleys_from_article()</code> takes a vector of OJS urls and scraps all the galleys urls from the <em>article view</em> (e.g., <a href="https://publicaciones.sociales.uba.ar/index.php/psicologiasocial/article/view/593" class="uri">https://publicaciones.sociales.uba.ar/index.php/psicologiasocial/article/view/593</a>).</p>
+<p>You may provide any article-level url (article abstract view, inline view, pdf direct download, etc.). <code>get_galleys_from_article()</code> parses the url you provide to compose the url of the article view. Then, looks for links containing “/article/view” in the href. Links are post-processed to comply to OJS routing conventions before returning (i.e., having a galley ID).</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">articles &lt;-<span class="st"> </span><span class="kw">c</span>( </a>
+<a class="sourceLine" id="cb7-2" title="2">  <span class="st">&#39;https://revistapsicologia.uchile.cl/index.php/RDP/article/view/55657&#39;</span>, <span class="co"># galleys pdf and mp3</span></a>
+<a class="sourceLine" id="cb7-3" title="3">  <span class="st">&#39;https://dspace.palermo.edu/ojs/index.php/psicodebate/article/view/516/311&#39;</span> <span class="co"># inline reader</span></a>
+<a class="sourceLine" id="cb7-4" title="4">)</a>
+<a class="sourceLine" id="cb7-5" title="5">galleys &lt;-<span class="st"> </span>ojsr<span class="op">::</span><span class="kw">get_galleys_from_article</span>(<span class="dt">input_url =</span> articles) </a></code></pre></div>
+<p>Result is in a long-format dataframe (1 input_url may result in several rows, one for each output_url), containing:</p>
+<ol style="list-style-type: decimal">
+<li><em>input_url</em> - the url you provided</li>
+<li><em>output_url</em> - the galleys url scraped</li>
+<li><em>format</em> - the format of the galley (e.g., pdf, xml)</li>
+<li><em>download_url</em> - the conventional url to force download of the galley. You may pass these to a download function of your own (e.g., <a href="https://stackoverflow.com/questions/39246739/download-multiple-files-using-download-file-function" class="uri">https://stackoverflow.com/questions/39246739/download-multiple-files-using-download-file-function</a>).</li>
+</ol>
+</div>
+<div id="get_html_meta_from_article-scrap-metadata-from-html-of-ojs-articles" class="section level2">
+<h2>get_html_meta_from_article: Scrap metadata from html of OJS articles</h2>
+<p><code>get_html_meta_from_article()</code> takes a vector of OJS urls and scraps all the metadata written in the html from the <em>article view</em> (e.g., <a href="https://publicaciones.sociales.uba.ar/index.php/psicologiasocial/article/view/593" class="uri">https://publicaciones.sociales.uba.ar/index.php/psicologiasocial/article/view/593</a>).</p>
+<p>You may provide any article-level url (article abstract view, inline view, pdf direct download, etc.). <code>get_html_meta_from_article()</code> parses the url you provide to compose the url of the article view. Then, looks for &lt;meta&gt; tags in the &lt;head&gt; section of the html. <strong>Important!</strong> This may not only retrieve bibliographic metadata; any other “meta” property detailed on the html will be obtained (e.g., descriptions for propagation on social network, etc.).</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">articles &lt;-<span class="st"> </span><span class="kw">c</span>( </a>
+<a class="sourceLine" id="cb8-2" title="2">  <span class="st">&#39;https://publicaciones.sociales.uba.ar/index.php/psicologiasocial/article/view/2137&#39;</span>, <span class="co"># article</span></a>
+<a class="sourceLine" id="cb8-3" title="3">  <span class="st">&#39;https://dspace.palermo.edu/ojs/index.php/psicodebate/article/view/516/311&#39;</span> <span class="co"># xml galley</span></a>
+<a class="sourceLine" id="cb8-4" title="4">)</a>
+<a class="sourceLine" id="cb8-5" title="5">metadata &lt;-<span class="st"> </span>ojsr<span class="op">::</span><span class="kw">get_html_meta_from_article</span>(<span class="dt">input_url =</span> articles) </a></code></pre></div>
+<p>Result is in a long-format dataframe (1 inputUrl may result in several rows, one for each outputUrl), containing:</p>
+<ol style="list-style-type: decimal">
+<li><em>input_url</em> - the url you provided</li>
+<li><em>meta_data_name</em> - name of the property/metadata (e.g., “DC.Date.created” for the Date of creation)</li>
+<li><em>meta_data_content</em> - the actual value of the metatag</li>
+<li><em>meta_data_scheme</em> - the standard in which the content is annotated</li>
+<li><em>meta_data_xmllang</em> - the language in which the metadata was entered</li>
+</ol>
+</div>
+<div id="get_oai_meta_from_article-retrieve-oai-records-for-ojs-articles" class="section level2">
+<h2>get_oai_meta_from_article: Retrieve OAI records for OJS articles</h2>
+<p>An alternative to web-scraping metadata from the html of article pages is to retrieve their OAI-PMH (Open Archives Initiative Protocol for ‘Metadata’ Harvesting) records <a href="http://www.openarchives.org/OAI/openarchivesprotocol.html" class="uri">http://www.openarchives.org/OAI/openarchivesprotocol.html</a></p>
+<p><code>get_oai_meta_from_article()</code> will try to access the OAI records within the OJS for any article (e.g., <a href="https://fundacionmenteclara.org.ar/revista/index.php/RCA/oai/?verb=GetRecord&amp;identifier=oai:ojs.fundacionmenteclara.org.ar:article/43&amp;metadataPrefix=oai_dc" class="uri">https://fundacionmenteclara.org.ar/revista/index.php/RCA/oai/?verb=GetRecord&amp;identifier=oai:ojs.fundacionmenteclara.org.ar:article/43&amp;metadataPrefix=oai_dc</a>) for which you provided an url.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">articles &lt;-<span class="st"> </span><span class="kw">c</span>(  </a>
+<a class="sourceLine" id="cb9-2" title="2">  <span class="st">&#39;https://publicaciones.sociales.uba.ar/index.php/psicologiasocial/article/view/2137&#39;</span>, <span class="co"># article</span></a>
+<a class="sourceLine" id="cb9-3" title="3">  <span class="st">&#39;https://dspace.palermo.edu/ojs/index.php/psicodebate/article/view/516/311&#39;</span> <span class="co"># xml galley</span></a>
+<a class="sourceLine" id="cb9-4" title="4">)</a>
+<a class="sourceLine" id="cb9-5" title="5">metadata_oai &lt;-<span class="st"> </span>ojsr<span class="op">::</span><span class="kw">get_oai_meta_from_article</span>(<span class="dt">input_url =</span> articles)</a></code></pre></div>
+<p>Result is in a long-format dataframe (1 inputUrl may result in several rows, one for each outputUrl), containing:</p>
+<ol style="list-style-type: decimal">
+<li><em>input_url</em> - the url you provided</li>
+<li><em>meta_data_name</em> - name of the property/metadata (e.g., “DC.Date.created” for the Date of creation)</li>
+<li><em>meta_data_content</em> - the actual value of the metatag</li>
+<li><em>meta_data_scheme</em> - <strong>always returns NA</strong> (included just for easier binding with <code>get_html_meta_from_article()</code> results)</li>
+<li><em>meta_data_xmllang</em> - <strong>always returns NA</strong> (included just for easier binding with <code>get_html_meta_from_article()</code> results)</li>
+</ol>
+<p><strong>Note: This function is in a very preliminary stage</strong>. If you are interested in working with OAI records, you may want to check Scott Chamberlain’s <strong>OAI package for R</strong> <a href="https://CRAN.R-project.org/package=oai" class="uri">https://CRAN.R-project.org/package=oai</a>. If you only have the OJS home url, and would like to check all the article’s OAI records at one shot, an interesting option is to parse it with <code>ojsr::parse_oai_url()</code> and passing the output_url to <code>oai::list_identifiers()</code>.</p>
+</div>
+<div id="parse_base_url-parses-urls-against-ojs-routing-conventions-to-retrieve-the-base-url" class="section level2">
+<h2>parse_base_url: Parses urls against OJS routing conventions to retrieve the base url</h2>
+<p><code>parse_base_url()</code> takes a vector of OJS urls and retrieves their base url, according to OJS routing conventions.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">mix_links &lt;-<span class="st"> </span><span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb10-2" title="2">   <span class="st">&#39;https://dspace.palermo.edu/ojs/index.php/psicodebate/issue/archive&#39;</span>,</a>
+<a class="sourceLine" id="cb10-3" title="3">   <span class="st">&#39;https://publicaciones.sociales.uba.ar/index.php/psicologiasocial/article/view/2903&#39;</span></a>
+<a class="sourceLine" id="cb10-4" title="4">)</a>
+<a class="sourceLine" id="cb10-5" title="5">base_url &lt;-<span class="st"> </span>ojsr<span class="op">::</span><span class="kw">parse_base_url</span>(<span class="dt">input_url =</span> mix_links)</a></code></pre></div>
+<p>Result is a vector of the same length of your input.</p>
+</div>
+<div id="parse_oai_url-parses-urls-against-ojs-routing-conventions-to-retrieve-the-oai-protocol-url" class="section level2">
+<h2>parse_oai_url: Parses urls against OJS routing conventions to retrieve the OAI protocol url</h2>
+<p><code>parse_oai_url()</code> takes a vector of OJS urls and retrieves their OAI entry url, according to OJS routing conventions.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">mix_links &lt;-<span class="st"> </span><span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb11-2" title="2">   <span class="st">&#39;https://dspace.palermo.edu/ojs/index.php/psicodebate/issue/archive&#39;</span>,</a>
+<a class="sourceLine" id="cb11-3" title="3">   <span class="st">&#39;https://publicaciones.sociales.uba.ar/index.php/psicologiasocial/article/view/2903&#39;</span></a>
+<a class="sourceLine" id="cb11-4" title="4">)</a>
+<a class="sourceLine" id="cb11-5" title="5">oai_url &lt;-<span class="st"> </span>ojsr<span class="op">::</span><span class="kw">parse_oai_url</span>(<span class="dt">input_url =</span> mix_links)</a></code></pre></div>
+<p>Result is a vector of the same length of your input.</p>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
