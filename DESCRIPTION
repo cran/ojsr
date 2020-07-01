@@ -1,7 +1,7 @@
 Package: ojsr
 Type: Package
 Title: Crawler and Scraper for Open Journal System ('OJS')
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: person("Gaston", "Becerra", email = "gaston.becerra@gmail.com",
   role = c("aut", "cre"),
   comment = c(ORCID = "0000-0001-9432-8848"))
@@ -18,10 +18,10 @@ Imports: dplyr (>= 0.8.3), magrittr, oai, rvest, stringr, tidyr (>=
         1.0), urltools, utils, xml2, purrr, rlang
 Suggests: knitr, rmarkdown, testthat, tidyverse
 VignetteBuilder: knitr
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 NeedsCompilation: no
-Packaged: 2020-04-16 19:07:23 UTC; GASTON
+Packaged: 2020-07-01 10:14:55 UTC; GASTON
 Author: Gaston Becerra [aut, cre] (<https://orcid.org/0000-0001-9432-8848>)
 Maintainer: Gaston Becerra <gaston.becerra@gmail.com>
 Repository: CRAN
-Date/Publication: 2020-04-24 16:20:02 UTC
+Date/Publication: 2020-07-01 11:00:14 UTC
