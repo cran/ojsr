@@ -18,7 +18,9 @@
 #' @export
 parse_base_url <- function ( input_url ) {
   url_parsed <- process_urls(input_url)
-  df <- url_parsed %>% dplyr::select(.data$base_url) %>% unlist(use.names = FALSE)
+  df <- url_parsed %>%
+      dplyr::select("base_url") %>%
+      unlist(use.names = FALSE)
   return(df)
 }
 
@@ -43,7 +45,9 @@ parse_base_url <- function ( input_url ) {
 #' @export
 parse_oai_url <- function ( input_url ) {
   url_parsed <- process_urls(input_url)
-  df <- url_parsed %>% dplyr::select(.data$conventional_oai) %>% unlist(use.names = FALSE)
+  df <- url_parsed %>%
+    dplyr::select("conventional_oai") %>%
+    unlist(use.names = FALSE)
   return(df)
 }
 
@@ -127,6 +131,7 @@ process_urls <- function( url ) {
 
         ojs_url$conventional_article <- ifelse( !is.na(ojs_url$article_id), paste0(ojs_url_base_url , "/article/view/", ojs_url$article_id), NA)
         ojs_url$conventional_issue <- ifelse( !is.na(ojs_url$issue_id), paste0(ojs_url_base_url , "/issue/view/", ojs_url$issue_id , "/showToc"), NA)
+        ojs_url$conventional_issue <- ifelse( !is.na(ojs_url$issue_id), paste0(ojs_url_base_url , "/issue/view/", ojs_url$issue_id ), NA)
         ojs_url$conventional_oai <- paste0(ojs_url_base_url , "/oai")
         ojs_url$conventional_search <- paste0(ojs_url_base_url , "/search/?query=")
         ojs_url$conventional_archive <- paste0(ojs_url_base_url , "/issue/archive")

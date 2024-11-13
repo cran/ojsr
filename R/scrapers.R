@@ -8,11 +8,8 @@
 #'
 #' @examples
 #' \donttest{
-#' journals <- c(
-#'   'https://dspace.palermo.edu/ojs/index.php/psicodebate/issue/archive',
-#'   'https://publicaciones.sociales.uba.ar/index.php/psicologiasocial/article/view/2903'
-#' )
-#' issues <- ojsr::get_issues_from_archive(input_url = journals, verbose = TRUE)
+#' journal <- 'https://dspace.palermo.edu/ojs/index.php/psicodebate/issue/archive'
+#' issues <- ojsr::get_issues_from_archive(input_url = journal)
 #' }
 #'
 #' @export
@@ -36,11 +33,8 @@ get_issues_from_archive <- function ( input_url , verbose = FALSE ) {
 #'
 #' @examples
 #' \donttest{
-#' issues <- c(
-#'    'https://revistas.ucn.cl/index.php/saludysociedad/issue/view/65',
-#'    'https://publicaciones.sociales.uba.ar/index.php/psicologiasocial/issue/view/31'
-#' )
-#' articles <- ojsr::get_articles_from_issue(input_url = issues, verbose = TRUE)
+#' issue <- 'https://revistas.ucn.cl/index.php/saludysociedad/issue/view/65'
+#' articles <- ojsr::get_articles_from_issue(input_url = issue)
 #' }
 #' @export
 #'
@@ -65,11 +59,8 @@ get_articles_from_issue <- function ( input_url , verbose = FALSE ) {
 #'
 #' @examples
 #' \donttest{
-#' articles <- c(
-#'   'https://revistapsicologia.uchile.cl/index.php/RDP/article/view/55657',
-#'   'https://dspace.palermo.edu/ojs/index.php/psicodebate/article/view/516/311'
-#' )
-#' galleys <- ojsr::get_galleys_from_article(input_url = articles,verbose = TRUE)
+#' article <- 'https://revistapsicologia.uchile.cl/index.php/RDP/article/view/55657'
+#' galleys <- ojsr::get_galleys_from_article(input_url = article)
 #' }
 #' @export
 get_galleys_from_article <- function ( input_url , verbose = FALSE ) {
@@ -130,9 +121,10 @@ get_articles_from_search <- function ( input_url , search_criteria, verbose = FA
       webpage_read = FALSE;
       tryCatch(
         { # reading the webpage
-          url_con = url(url[i], "rb")
+          # url_con = url(url[i], open = "rb" )
+          url_con <- RCurl::getURL(url = url[i], .opts = (timeout=120) )
           webpage <- xml2::read_html(url_con)
-          close(url_con)
+          # close(url_con)
           webpage_read = TRUE;
         }, warning = function(war) {
           message("warning reading URL ", url[i], " : ", substr( war, 0, 100)  ,"...")
@@ -199,11 +191,8 @@ get_articles_from_search <- function ( input_url , search_criteria, verbose = FA
 #'
 #' @examples
 #' \donttest{
-#' articles <- c(
-#'   'https://publicaciones.sociales.uba.ar/index.php/psicologiasocial/article/view/2137', # article
-#'   'https://dspace.palermo.edu/ojs/index.php/psicodebate/article/view/516/311' # xml galley
-#' )
-#' metadata <- ojsr::get_html_meta_from_article(articles, verbose = TRUE)
+#' article <- 'https://dspace.palermo.edu/ojs/index.php/psicodebate/article/view/516/311'
+#' metadata <- ojsr::get_html_meta_from_article(article)
 #' }
 #' @importFrom magrittr %>%
 #' @export
@@ -240,9 +229,10 @@ get_html_meta_from_article <- function ( input_url , verbose = FALSE) {
       webpage_read = FALSE;
       tryCatch(
         { # reading the webpage
-          url_con = url(url[i], "rb")
+          # url_con = url(url[i], "rb")
+          url_con <- RCurl::getURL(url = url[i], .opts = (timeout=120) )
           webpage <- xml2::read_html(url_con)
-          close(url_con)
+          # close(url_con)
           webpage_read = TRUE;
         }, warning = function(war) {
           message("warning reading URL ", url[i], " : ", substr( war, 0, 100)  ,"...")
@@ -261,7 +251,8 @@ get_html_meta_from_article <- function ( input_url , verbose = FALSE) {
 
         if (verbose) { message("scrapped ", substr(url[i],1,15), " ... found ", length(meta_data_tags), " elements using criteria ", xpath) }
 
-        if (class(meta_data_tags)=="xml_nodeset"){
+        # if (is(meta_data_tags,"xml_nodeset")){
+        if (inherits(meta_data_tags, "xml_nodeset")) {
           meta_data_tags_list <- xml2::xml_attrs(meta_data_tags)
           meta_data_name <- meta_data_content <- meta_data_scheme <- meta_data_xmllang <- NA
           if (length(meta_data_tags_list)>0){
@@ -301,11 +292,8 @@ get_html_meta_from_article <- function ( input_url , verbose = FALSE) {
 #'
 #' @examples
 #' \donttest{
-#' articles <- c(
-#'   'https://publicaciones.sociales.uba.ar/index.php/psicologiasocial/article/view/2137', # article
-#'   'https://dspace.palermo.edu/ojs/index.php/psicodebate/article/view/516/311' # xml galley
-#' )
-#' metadata_oai <- ojsr::get_oai_meta_from_article(input_url = articles, verbose = TRUE)
+#' article <- 'https://dspace.palermo.edu/ojs/index.php/psicodebate/article/view/516/311'
+#' metadata_oai <- ojsr::get_oai_meta_from_article(input_url = article)
 #' }
 #' @importFrom magrittr %>%
 #' @export
@@ -342,9 +330,10 @@ get_oai_meta_from_article <- function ( input_url , verbose = FALSE ) {
       webpage_read = FALSE
       tryCatch({
 
-        url_con = url(identify_url, "rb")
+        # url_con = url(identify_url, "rb")
+        url_con <- RCurl::getURL(url = identify_url, .opts = (timeout=120) )
         identify_xml <- xml2::read_xml( url_con )
-        close(url_con)
+        # close(url_con)
         webpage_read = TRUE
 
       }, warning = function(war) { message("warning processing ", identify_url) ;
@@ -432,14 +421,14 @@ ojsr_scrap_v3 <- function ( input_url, verbose, from, conventional_url, xpath, o
       webpage_read = FALSE;
       tryCatch(
         { # reading the webpage
-          url_con = url(url[i], "rb")
+          # url_con = url(url[i], "rb")
+          url_con <- RCurl::getURL(url = url[i], .opts = (timeout=120) )
           webpage <- xml2::read_html(url_con)
-          close(url_con)
           webpage_read = TRUE;
         }, warning = function(war) {
-          message("warning reading URL ", url[i], " : ", substr( war, 0, 100)  ,"...")
+          message("warning reading URL ", url[i], " : ", substr( war, 0, 100) )
         }, error = function(err) {
-          message("error reading URL ", url[i], " : ", substr( err, 0, 100)  ,"...")
+          message("error reading URL ", url[i], " : ", substr( err, 0, 100) )
         }, finally = {
         }
       )
